@@ -32,6 +32,8 @@ ext {
   cloudEventsSpringVersion    = "5.0.0"
   springCloudVersion          = "2025.1.1"
   lz4JavaVersion              = "1.11.4"
+  guavaVersion                = "33.8.0-jre"
+  snappyJavaVersion           = "1.1.10.9"
   jackson3Version             = "3.1.7"
 }
 
@@ -79,6 +81,8 @@ ext['httpcore5.version'] = '5.4.3'
 configurations.configureEach {
   resolutionStrategy {
     force(
+      "com.google.guava:guava:$guavaVersion",
+      "org.xerial.snappy:snappy-java:$snappyJavaVersion",
       "tools.jackson:jackson-bom:$jackson3Version",
       "tools.jackson.core:jackson-core:$jackson3Version",
       "tools.jackson.core:jackson-databind:$jackson3Version",
@@ -348,8 +352,8 @@ tasks.named("check").configure {
 }
 
 bootBuildImage {
-  builder = "paketobuildpacks/builder-jammy-base:0.4.672"
-  runImage = "paketobuildpacks/run-jammy-base:0.1.282"
+  builder = "paketobuildpacks/builder-jammy-base:0.4.681"
+  runImage = "paketobuildpacks/run-jammy-base:0.1.298"
   // Prefer Corretto over BellSoft Liberica — Liberica is fetched from GitHub and fails in CI.
   buildpacks = [
     "docker.io/paketobuildpacks/amazon-corretto",
